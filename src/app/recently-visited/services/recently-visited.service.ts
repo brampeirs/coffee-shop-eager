@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, signal, computed, Signal } from '@angular/core';
 
 export interface Coffee {
   id: string;
@@ -16,23 +15,22 @@ export interface Coffee {
 @Injectable()
 export class RecentlyVisitedService {
   private readonly maxItems = 3;
-  private visitedCoffees = new BehaviorSubject<Coffee[]>([]);
+  private readonly visitedCoffeesSignal = signal<Coffee[]>([]);
 
-  visitedCoffees$: Observable<Coffee[]> = this.visitedCoffees.asObservable();
+  // Expose as readonly computed signal
+  readonly visitedCoffees: Signal<Coffee[]> = computed(() => this.visitedCoffeesSignal());
 
   addVisitedCoffee(coffee: Coffee): void {
-    const current = this.visitedCoffees.value;
-
     // Remove if already exists
-    const filtered = current.filter((c) => c.id !== coffee.id);
+    const filtered = this.visitedCoffeesSignal().filter((c) => c.id !== coffee.id);
 
     // Add to beginning
     const updated = [coffee, ...filtered].slice(0, this.maxItems);
 
-    this.visitedCoffees.next(updated);
+    this.visitedCoffeesSignal.set(updated);
   }
 
   getVisitedCoffees(): Coffee[] {
-    return this.visitedCoffees.value;
+    return this.visitedCoffeesSignal();
   }
 }

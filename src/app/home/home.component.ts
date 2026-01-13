@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   Coffee,
@@ -11,7 +11,7 @@ import {
   styleUrls: ['./home.component.css'],
   standalone: false,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   coffees: Coffee[] = [
     {
       id: 'ethiopian-yirgacheffe',
@@ -51,13 +51,6 @@ export class HomeComponent implements OnInit {
   ];
 
   constructor(private router: Router, private recentlyVisitedService: RecentlyVisitedService) {}
-
-  ngOnInit(): void {
-    // Initialize with some coffees
-    this.coffees.forEach((coffee) => {
-      this.recentlyVisitedService.addVisitedCoffee(coffee);
-    });
-  }
 
   navigateToProduct(coffee: Coffee): void {
     this.router.navigate(['/product', coffee.id]);

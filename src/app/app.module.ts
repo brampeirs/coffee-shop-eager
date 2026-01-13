@@ -7,9 +7,10 @@ import { RecentlyVisitedModule } from './recently-visited/recently-visited.modul
 import { ProductDetailModule } from './product-detail/product-detail.module';
 import { routes } from './app.routes';
 import { CommonModule } from '@angular/common';
+import { CoffeeListComponent } from './coffee-list/coffee-list.component';
 
 @NgModule({
-  declarations: [App, HomeComponent],
+  declarations: [App, HomeComponent, CoffeeListComponent],
   imports: [
     CommonModule,
     RouterOutlet,

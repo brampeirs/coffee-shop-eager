@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { Coffee, RecentlyVisitedService } from '../../services/recently-visited.service';
 
 @Component({
@@ -9,14 +8,11 @@ import { Coffee, RecentlyVisitedService } from '../../services/recently-visited.
   styleUrls: ['./recently-visited.component.css'],
   standalone: false,
 })
-export class RecentlyVisitedComponent implements OnInit {
-  visitedCoffees$!: Observable<Coffee[]>;
+export class RecentlyVisitedComponent {
+  private readonly recentlyVisitedService = inject(RecentlyVisitedService);
+  private readonly router = inject(Router);
 
-  constructor(private recentlyVisitedService: RecentlyVisitedService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.visitedCoffees$ = this.recentlyVisitedService.visitedCoffees$;
-  }
+  readonly visitedCoffees: Signal<Coffee[]> = this.recentlyVisitedService.visitedCoffees;
 
   navigateToProduct(coffeeId: string): void {
     this.router.navigate(['/product', coffeeId]);

@@ -4,42 +4,36 @@
     <p>Your favorite coffees from recent visits</p>
   </div>
 
-  @if ((visitedCoffees$ | async); as coffees) {
-    @if (coffees.length > 0) {
-      <div class="coffee-grid">
-        @for (coffee of coffees; track coffee.id) {
-          <div class="coffee-card" (click)="navigateToProduct(coffee.id)">
-            <div class="coffee-image">
-              <img [src]="coffee.image" [alt]="coffee.name" />
-              @if (coffee.badge) {
-                <div class="coffee-badge">{{ coffee.badge }}</div>
-              }
-            </div>
-            <div class="coffee-content">
-              <div class="coffee-header">
-                <h3 class="coffee-name">{{ coffee.name }}</h3>
-                <span class="coffee-price">{{ coffee.price }}</span>
-              </div>
-              <p class="coffee-description">
-                {{ coffee.description.substring(0, 100) }}...
-              </p>
-              <div class="coffee-meta">
-                <span>🌍 {{ coffee.origin }}</span>
-                <span>⭐ {{ coffee.rating }}</span>
-                <span>🔥 {{ coffee.roast }}</span>
-              </div>
-            </div>
-          </div>
+  @if (visitedCoffees().length > 0) {
+  <div class="coffee-grid">
+    @for (coffee of visitedCoffees(); track coffee.id) {
+    <div class="coffee-card" (click)="navigateToProduct(coffee.id)">
+      <div class="coffee-image">
+        <img [src]="coffee.image" [alt]="coffee.name" />
+        @if (coffee.badge) {
+        <div class="coffee-badge">{{ coffee.badge }}</div>
         }
       </div>
-    } @else {
-      <div class="empty-state">
-        <div class="empty-state-icon">☕</div>
-        <div class="empty-state-title">No Recently Visited Items</div>
-        <div class="empty-state-description">
-          Your recently visited coffees will appear here
+      <div class="coffee-content">
+        <div class="coffee-header">
+          <h3 class="coffee-name">{{ coffee.name }}</h3>
+          <span class="coffee-price">{{ coffee.price }}</span>
+        </div>
+        <p class="coffee-description">{{ coffee.description.substring(0, 100) }}...</p>
+        <div class="coffee-meta">
+          <span>🌍 {{ coffee.origin }}</span>
+          <span>⭐ {{ coffee.rating }}</span>
+          <span>🔥 {{ coffee.roast }}</span>
         </div>
       </div>
+    </div>
     }
+  </div>
+  } @else {
+  <div class="empty-state">
+    <div class="empty-state-icon">☕</div>
+    <div class="empty-state-title">No Recently Visited Items</div>
+    <div class="empty-state-description">Your recently visited coffees will appear here</div>
+  </div>
   }
 </section>

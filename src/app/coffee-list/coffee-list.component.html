@@ -1,0 +1,34 @@
+<section>
+  <div class="section-header">
+    <h2>Our Coffee Selection</h2>
+    <p>Explore our curated collection of premium coffees from around the world</p>
+  </div>
+
+  <div class="coffee-grid">
+    @for (coffee of coffees; track coffee.id) {
+      <div class="coffee-card" (click)="navigateToProduct(coffee.id)">
+        <div class="coffee-image">
+          <img [src]="coffee.image" [alt]="coffee.name" />
+          @if (coffee.badge) {
+            <div class="coffee-badge">{{ coffee.badge }}</div>
+          }
+        </div>
+        <div class="coffee-content">
+          <div class="coffee-header">
+            <h3 class="coffee-name">{{ coffee.name }}</h3>
+            <span class="coffee-price">{{ coffee.price }}</span>
+          </div>
+          <p class="coffee-description">
+            {{ coffee.description.substring(0, 100) }}...
+          </p>
+          <div class="coffee-meta">
+            <span>🌍 {{ coffee.origin }}</span>
+            <span>⭐ {{ coffee.rating }}</span>
+            <span>🔥 {{ coffee.roast }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
