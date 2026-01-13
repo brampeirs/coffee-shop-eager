@@ -1,0 +1,39 @@
+@if (coffee) {
+  <a href="#" class="back-button" (click)="goBack(); $event.preventDefault()">
+    <span>←</span>
+    <span>Back to Home</span>
+  </a>
+
+  <div class="product-detail">
+    <div class="product-detail-content">
+      <div class="product-detail-image">
+        <img [src]="coffee.image" [alt]="coffee.name" />
+      </div>
+      <div class="product-detail-info">
+        <h1>{{ coffee.name }}</h1>
+        <div class="product-detail-price">{{ coffee.price }}</div>
+
+        <div class="product-detail-meta">
+          <div class="product-detail-meta-item">
+            <span class="product-detail-meta-label">Origin</span>
+            <span class="product-detail-meta-value">{{ coffee.origin }}</span>
+          </div>
+          <div class="product-detail-meta-item">
+            <span class="product-detail-meta-label">Roast Level</span>
+            <span class="product-detail-meta-value">{{ coffee.roast }}</span>
+          </div>
+          <div class="product-detail-meta-item">
+            <span class="product-detail-meta-label">Rating</span>
+            <span class="product-detail-meta-value">{{ coffee.rating }}</span>
+          </div>
+        </div>
+
+        <div class="product-detail-description">{{ coffee.description }}</div>
+
+        <button class="add-to-cart-button">Add to Cart</button>
+      </div>
+    </div>
+
+    <app-recently-visited></app-recently-visited>
+  </div>
+}

@@ -1,0 +1,70 @@
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+  margin-bottom: 4rem;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  margin-bottom: 1rem;
+  background: linear-gradient(to bottom, hsl(var(--foreground)), hsl(var(--muted-foreground)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 1.125rem;
+  color: hsl(var(--muted-foreground));
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: opacity 0.2s;
+}
+
+.cta-button:hover {
+  opacity: 0.9;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.stat-card {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+}

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Coffee Co.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: 0 0% 3.9%;
+            --foreground: 0 0% 98%;
+            --card: 0 0% 7%;
+            --card-foreground: 0 0% 98%;
+            --primary: 0 0% 98%;
+            --primary-foreground: 0 0% 9%;
+            --muted: 0 0% 14.9%;
+            --muted-foreground: 0 0% 63.9%;
+            --accent: 0 0% 14.9%;
+            --border: 0 0% 14.9%;
+            --ring: 0 0% 83.1%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            border-bottom: 1px solid hsl(var(--border));
+            padding: 1rem 0;
+            margin-bottom: 3rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: hsl(var(--foreground));
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, hsl(var(--foreground)), hsl(var(--muted-foreground)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: hsl(var(--muted-foreground));
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: opacity 0.2s;
+        }
+
+        .cta-button:hover {
+            opacity: 0.9;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        .coffee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .coffee-card {
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+
+        .coffee-card:hover {
+            border-color: hsl(var(--muted-foreground));
+        }
+
+        .coffee-image {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coffee-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .coffee-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: hsl(var(--background));
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid hsl(var(--border));
+        }
+
+        .coffee-content {
+            padding: 1.25rem;
+        }
+
+        .coffee-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.5rem;
+        }
+
+        .coffee-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .coffee-price {
+            font-weight: 700;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .coffee-description {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .coffee-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .coffee-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        footer {
+            border-top: 1px solid hsl(var(--border));
+            margin-top: 4rem;
+            padding: 2rem 0;
+            text-align: center;
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+
+        .back-button:hover {
+            color: hsl(var(--foreground));
+        }
+
+        .product-detail {
+            margin-bottom: 4rem;
+        }
+
+        .product-detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-detail-image {
+            width: 100%;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid hsl(var(--border));
+        }
+
+        .product-detail-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .product-detail-info h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .product-detail-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 1.5rem;
+        }
+
+        .product-detail-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .product-detail-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .product-detail-meta-label {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .product-detail-meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .product-detail-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 2rem;
+        }
+
+        .add-to-cart-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-to-cart-button:hover {
+            opacity: 0.9;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background-color: hsl(var(--card));
+            border: 1px dashed hsl(var(--border));
+            border-radius: 0.75rem;
+        }
+
+        .empty-state-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.3;
+        }
+
+        .empty-state-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: hsl(var(--foreground));
+        }
+
+        .empty-state-description {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .coffee-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-detail-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-detail-image img {
+                height: 300px;
+            }
+
+            .product-detail-info h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Artisan Coffee Co.</div>
+            <ul class="nav-links">
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#locations">Locations</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div id="home-view">
+        <section class="hero">
+            <h1>Crafted with Passion</h1>
+            <p>Discover artisanal coffee blends from around the world, roasted to perfection and served with love.</p>
+            <a href="#menu" class="cta-button">Explore Menu</a>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Coffee Origins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">47</div>
+                <div class="stat-label">Specialty Drinks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8.5k+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Recently Visited</h2>
+                <p>Your favorite coffees from recent visits</p>
+            </div>
+
+            <div class="coffee-grid" id="recently-visited-grid">
+                <div class="coffee-card" data-product-id="ethiopian-yirgacheffe">
+                    <div class="coffee-image">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=300&fit=crop" alt="Ethiopian Yirgacheffe Coffee">
+                        <div class="coffee-badge">Popular</div>
+                    </div>
+                    <div class="coffee-content">
+                        <div class="coffee-header">
+                            <h3 class="coffee-name">Ethiopian Yirgacheffe</h3>
+                            <span class="coffee-price">$4.50</span>
+                        </div>
+                        <p class="coffee-description">Bright and floral with notes of jasmine, bergamot, and stone fruit. Light roast.</p>
+                        <div class="coffee-meta">
+                            <span>🌍 Ethiopia</span>
+                            <span>⭐ 4.8</span>
+                            <span>🔥 Light</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coffee-card" data-product-id="colombian-supremo">
+                    <div class="coffee-image">
+                        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=300&fit=crop" alt="Colombian Supremo Coffee">
+                    </div>
+                    <div class="coffee-content">
+                        <div class="coffee-header">
+                            <h3 class="coffee-name">Colombian Supremo</h3>
+                            <span class="coffee-price">$4.25</span>
+                        </div>
+                        <p class="coffee-description">Rich and balanced with caramel sweetness and nutty undertones. Medium roast.</p>
+                        <div class="coffee-meta">
+                            <span>🌍 Colombia</span>
+                            <span>⭐ 4.9</span>
+                            <span>🔥 Medium</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coffee-card" data-product-id="sumatra-mandheling">
+                    <div class="coffee-image">
+                        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop" alt="Sumatra Mandheling Coffee">
+                        <div class="coffee-badge">New</div>
+                    </div>
+                    <div class="coffee-content">
+                        <div class="coffee-header">
+                            <h3 class="coffee-name">Sumatra Mandheling</h3>
+                            <span class="coffee-price">$4.75</span>
+                        </div>
+                        <p class="coffee-description">Full-bodied with earthy, herbal notes and a syrupy mouthfeel. Dark roast.</p>
+                        <div class="coffee-meta">
+                            <span>🌍 Indonesia</span>
+                            <span>⭐ 4.7</span>
+                            <span>🔥 Dark</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+
+        <!-- Product Detail View -->
+        <div id="detail-view" class="hidden">
+            <a href="#" class="back-button" id="back-button">
+                <span>←</span>
+                <span>Back to Home</span>
+            </a>
+
+            <div class="product-detail">
+                <div class="product-detail-content">
+                    <div class="product-detail-image">
+                        <img id="detail-image" src="" alt="">
+                    </div>
+                    <div class="product-detail-info">
+                        <h1 id="detail-name"></h1>
+                        <div class="product-detail-price" id="detail-price"></div>
+
+                        <div class="product-detail-meta">
+                            <div class="product-detail-meta-item">
+                                <span class="product-detail-meta-label">Origin</span>
+                                <span class="product-detail-meta-value" id="detail-origin"></span>
+                            </div>
+                            <div class="product-detail-meta-item">
+                                <span class="product-detail-meta-label">Roast Level</span>
+                                <span class="product-detail-meta-value" id="detail-roast"></span>
+                            </div>
+                            <div class="product-detail-meta-item">
+                                <span class="product-detail-meta-label">Rating</span>
+                                <span class="product-detail-meta-value" id="detail-rating"></span>
+                            </div>
+                        </div>
+
+                        <div class="product-detail-description" id="detail-description"></div>
+
+                        <button class="add-to-cart-button">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Recently Visited on Detail Page -->
+                <section>
+                    <div class="section-header">
+                        <h2>Recently Visited</h2>
+                        <p>Your favorite coffees from recent visits</p>
+                    </div>
+                    <div class="coffee-grid" id="detail-recently-visited"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Artisan Coffee Co. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const products = {
+            'ethiopian-yirgacheffe': {
+                id: 'ethiopian-yirgacheffe',
+                name: 'Ethiopian Yirgacheffe',
+                price: '$4.50',
+                origin: 'Ethiopia',
+                rating: '4.8',
+                roast: 'Light',
+                description: 'Bright and floral with notes of jasmine, bergamot, and stone fruit. Light roast. This exceptional coffee is grown in the Yirgacheffe region of Ethiopia, known for producing some of the world\'s finest coffees. The beans are carefully processed using the washed method, which highlights their delicate floral characteristics and complex flavor profile.',
+                image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=300&fit=crop',
+                badge: 'Popular'
+            },
+            'colombian-supremo': {
+                id: 'colombian-supremo',
+                name: 'Colombian Supremo',
+                price: '$4.25',
+                origin: 'Colombia',
+                rating: '4.9',
+                roast: 'Medium',
+                description: 'Rich and balanced with caramel sweetness and nutty undertones. Medium roast. Sourced from the high-altitude regions of Colombia, this coffee represents the finest grade of Colombian beans. The Supremo classification denotes large, uniform beans that produce a consistently excellent cup with remarkable balance and body.',
+                image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=300&fit=crop'
+            },
+            'sumatra-mandheling': {
+                id: 'sumatra-mandheling',
+                name: 'Sumatra Mandheling',
+                price: '$4.75',
+                origin: 'Indonesia',
+                rating: '4.7',
+                roast: 'Dark',
+                description: 'Full-bodied with earthy, herbal notes and a syrupy mouthfeel. Dark roast. Grown in the lush highlands of North Sumatra, Mandheling coffee is known for its unique wet-hulling process that gives it distinctive earthy and complex characteristics. This is a coffee for those who appreciate bold, full-bodied flavors.',
+                image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop',
+                badge: 'New'
+            }
+        };
+
+        // Show product detail
+        function showProductDetail(productId) {
+            const product = products[productId];
+            if (!product) return;
+
+            // Update detail view
+            document.getElementById('detail-name').textContent = product.name;
+            document.getElementById('detail-price').textContent = product.price;
+            document.getElementById('detail-origin').textContent = product.origin;
+            document.getElementById('detail-rating').textContent = product.rating;
+            document.getElementById('detail-roast').textContent = product.roast;
+            document.getElementById('detail-description').textContent = product.description;
+            document.getElementById('detail-image').src = product.image;
+            document.getElementById('detail-image').alt = product.name;
+
+            // Show empty state for recently visited (simulating a bug)
+            const recentlyVisitedContainer = document.getElementById('detail-recently-visited');
+            recentlyVisitedContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">☕</div>
+                    <div class="empty-state-title">No Recently Visited Items</div>
+                    <div class="empty-state-description">Your recently visited coffees will appear here</div>
+                </div>
+            `;
+
+            // Toggle views
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Create product card element
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'coffee-card';
+            card.setAttribute('data-product-id', product.id);
+
+            card.innerHTML = `
+                <div class="coffee-image">
+                    <img src="${product.image}" alt="${product.name}">
+                    ${product.badge ? `<div class="coffee-badge">${product.badge}</div>` : ''}
+                </div>
+                <div class="coffee-content">
+                    <div class="coffee-header">
+                        <h3 class="coffee-name">${product.name}</h3>
+                        <span class="coffee-price">${product.price}</span>
+                    </div>
+                    <p class="coffee-description">${product.description.substring(0, 100)}...</p>
+                    <div class="coffee-meta">
+                        <span>🌍 ${product.origin}</span>
+                        <span>⭐ ${product.rating}</span>
+                        <span>🔥 ${product.roast}</span>
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => showProductDetail(product.id));
+            return card;
+        }
+
+        // Back button
+        document.getElementById('back-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('detail-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add click handlers to all coffee cards
+        document.querySelectorAll('.coffee-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const productId = card.getAttribute('data-product-id');
+                showProductDetail(productId);
+            });
+        });
+    </script>
+</body>
+</html>
